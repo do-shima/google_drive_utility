@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    env:
+      GOOGLE_CLIENT_ID: dummy-client-id.apps.googleusercontent.com
+      GOOGLE_CLIENT_SECRET: dummy-client-secret
+      NEXTAUTH_URL: http://localhost:3000
+      NEXTAUTH_SECRET: dummy-ci-secret-that-is-not-used-for-oauth
+      ALLOWED_DOMAIN: example.ac.jp
+      ALLOWED_OPERATOR_EMAILS: operator@example.ac.jp
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
