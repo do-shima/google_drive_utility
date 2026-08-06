@@ -30,6 +30,12 @@ Google Cloud では OAuth consent screen、Web application client、承認済み
 
 access tokenは暗号化されたNextAuth JWT cookie内だけに保持し、client sessionには返しません。refresh tokenは要求・保存しません。認証期限が切れた場合は処理を中止し、画面の「再ログイン」からログインし直してください。
 
+## ローカル専用運用
+
+初回と更新後は `npm ci`、`npm run build` を実行します。通常は `npm run start:local` で起動し、ブラウザで `http://localhost:3000` を開きます。終了時はログアウトしてからターミナルで `Ctrl+C` を押してください。
+
+`.env.local` はGitへ追加しないでください。表示されるNetwork URLや別端末からは利用せず、このPCのブラウザからだけアクセスしてください。
+
 ## Shared Drive
 
 一覧・コピー・作成は Shared Drive 用パラメーターを付けて実行し、100件を超える一覧も全pageを取得します。ただし、操作可能範囲はログイン利用者が閲覧・追加・コピーできる対象だけです。domain-wide delegationやservice accountは使用しません。Driveが `incompleteSearch` を返した場合は、不完全な結果を成功扱いせず処理を中止します。
